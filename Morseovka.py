@@ -1,3 +1,4 @@
+import unittest
 """
 Tenhle kolekce nám umožňuje pracovat s písmeny,
  číslicemi a několik unikátních znaků,
@@ -84,8 +85,8 @@ def dekodovat(text):
                     List.values()).index(citext)]
                 citext = ''
 
-    return dtext
-
+    class Unittest_Morseovka(unittest.TestCase):
+        """Trida pro spusteni unit testu."""
 
     def test_kodovat_pismeno(self):
         """Test pro převod písmena na kod."""
