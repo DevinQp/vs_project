@@ -15,7 +15,7 @@ List = {
          'G': '--.',
          'H': '....',
          'I': '..',
-         'J': '.---',
+         'J': ' .---',
          'K': '-.-',
          'L': '.-..',
          'M': '--',
@@ -52,78 +52,79 @@ List = {
          }
 
 
-def Kodovat(text):
-    """
-    Funkce přiřazuje z kolekce písmen danné znaky.
+def kodovat(text):
+    """    Funkce přiřazuje z kolekce písmen danné znaky.
     Do funkce je vložena podmínka v případě, kdy v textu bude
     mezera.
     """
-    Ktext = ""
-    for pismena in text:
-        """Pokud není mezera"""
-        if text != " ":
-            Ktext = Ktext + List.get(pismena) + " "
-            """Pokud mezera je"""
+    ktext = ''
+    for pismeno in text:
+        if pismeno != ' ':
+            ktext += List[pismeno] + ' '
         else:
-            Ktext += " "
-    return Ktext
-    print(Ktext)
+            ktext += ' '
+
+    return ktext
 
 
-def Dekodovat(text):
+def dekodovat(text):
     """Funkce přiřazuje hodnoty z kolekce do písmen"""
-    text += " "
-    """Proměnné je přiřazen klíč"""
-    Klic = list(List.keys())
-    """Proměnné je přiřazena hodnota"""
-    Hodnota = list(List.values())
-    m = ""
-    """Výsledná proměnná"""
-    Ntext = ""
-    for pismena in text:
-        if pismena != " ":
-            m += pismena
-            """Proměnná počítá mezery"""
+    text += ' '
+    dtext = ''
+    citext = ''
+    for letter in text:
+        if (letter != ' '):
             i = 0
+            citext += letter
         else:
             i += 1
-            """Nové písmeno"""
             if i == 2:
-                """Přidání mezery"""
-                Ntext += " "
+                dtext += ' '
             else:
-                Ntext = Ntext + Klic[Hodnota.index(m)]
-                m = ""
-    return Ntext
-    print(Ntext)
+                dtext += list(List.keys())[list(
+                    List.values()).index(citext)]
+                citext = ''
+
+    return dtext
 
 
-def main():
-    """Do proměnné Ktext vložíme text, který chceme kódovat,
-     do proměnné Detext vložíme znaky Morseovy abecedy,
-    zavoláním funkcí, program vypíše výsledky."""
-    Ktext = "Neandertalec"
-    Detext = "-. . .- -. -.. . .-. - .- .-.. . -.-."
-    """Proměnná výsledek překládá na velké písmena"""
-    Vysledek = Kodovat(Ktext.upper())
-    DVysledek = Dekodovat(Detext)
-    print(Vysledek)
-    print(DVysledek)
+    def test_kodovat_pismeno(self):
+        """Test pro převod písmena na kod."""
+        self.assertEqual(kodovat("A"), ".- ")
+
+    def test_kodovat_veta(self):
+        """Test pro převodu vety do morseovky"""
+        self.assertEqual(kodovat(
+            "MORSEOVKA"), "-- --- .-. ... . --- ...- -.- .- ")
+
+    def test_kodovat_cislo(self):
+        """Test pro převod číslic do morseovky."""
+        self.assertEqual(kodovat(
+            "1234567890"), ".---- ..--- ...-- ....- ....."
+            " -.... --... ---.. ----. ----- ")
+
+    def test_dekodovat_pismeno(self):
+        """Test pro morseovky na pismeno."""
+        self.assertEqual(dekodovat("-.--"), "Y")
+
+    def test_dekodovat_text(self):
+        """Test pro převod morseovky do textové věty."""
+        self.assertEqual(dekodovat(
+            ".--. .-. . ...- --- -..  -. .-  ... .-.."
+            " --- ...- ---  --..  -.- --- -.. ..-"),
+            "PREVOD NA SLOVO Z KODU")
 
 
 if __name__ == '__main__':
-    main()
+    """Funkce, ktera umoznuje vybrat typ prevodu."""
 
-    def test_encode():
-        """
-        Prvni test kontroluje, zda opravdu funkce Kodovat převádí
-        textovy řetězec do šifrovaného textu.
-        """
-        assert Kodovat("flake8") == "..-. .-.. .- -.- . ---.."
-
-    def test_decode():
-        """
-        Druhá test kontroluje, zda funkce Dekodovat převádí
-        šifrovaný text do textového řetězce.
-        """
-        assert Dekodovat("..-. .-.. .- -.- . ---..") == "flake8"
+    vyber = input("stiskni '1' pro kodovani textu"
+                  ", stiskni '2' pro dekodovani textu: ")
+    if vyber == "1":
+        message = input("Zadej text, ktery chceš přeložit do morseovky: ")
+        result = kodovat(message.upper())
+        print(result)
+    if vyber == "2":
+        message = input("Zadej morseový kod, ktery chceš přeložit do textu: ")
+        result = dekodovat(message.upper())
+        print(result)
