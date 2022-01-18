@@ -1,4 +1,3 @@
-
 """
 Tenhle kolekce nám umožňuje pracovat s písmeny,
  číslicemi a několik unikátních znaků,
